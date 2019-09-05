@@ -60,7 +60,7 @@ public class TestLogProducer {
                         System.out.println("Sent message: (" + msg + ")");
                     }
                 }
-                Thread.sleep(50000);
+                Thread.sleep(10000);
             }
         } catch (Exception e) {
             e.printStackTrace();

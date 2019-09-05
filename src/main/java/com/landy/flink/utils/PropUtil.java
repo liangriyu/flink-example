@@ -10,13 +10,15 @@ import java.util.Properties;
  */
 public class PropUtil {
 
-    public static Properties getProperties(String fileName) throws IOException {
+    public  Properties getProperties(String fileName) throws IOException {
         Properties properties = new Properties();
-        properties.load(ClassLoader.getSystemResourceAsStream(fileName));
+//        properties.load(ClassLoader.getSystemResourceAsStream(fileName));
+        properties.load(this.getClass().getClassLoader().getResourceAsStream(fileName));
         return properties;
+
     }
 
-    public static Properties getProperties() throws IOException {
+    public  Properties getProperties() throws IOException {
         return getProperties("application.properties");
     }
 
