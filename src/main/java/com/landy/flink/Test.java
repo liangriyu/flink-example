@@ -11,13 +11,10 @@ import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 public class Test {
 
     public static void main(String[] args){
-
-        StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         try {
             FlinkKafkaConsumer consumer = new FlinkKafkaConsumer();
-            consumer.getConsumer().setStartFromLatest();
-            consumer.run(env);
-            env.execute();
+//            consumer.getConsumer().setStartFromLatest();
+            consumer.run();
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -12,7 +12,7 @@ import java.util.Properties;
 
 public class TestLogProducer {
 
-    public final static String BROKER_LIST = "bigdata001:19092,bigdata002:19092,bigdata003:19092";
+    public final static String BROKER_LIST = "bigdatadev01:19092,bigdatadev02:19092,bigdatadev03:19092";
     public final static String TOPIC = "test-log";
     public final static boolean isAsync = true;
 
