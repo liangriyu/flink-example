@@ -16,6 +16,7 @@ import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.KeyedProcessFunction;
 import org.apache.flink.streaming.api.functions.ProcessFunction;
+import org.apache.flink.streaming.api.functions.timestamps.AscendingTimestampExtractor;
 import org.apache.flink.streaming.api.functions.windowing.WindowFunction;
 import org.apache.flink.streaming.api.windowing.time.Time;
 import org.apache.flink.streaming.api.windowing.windows.TimeWindow;
@@ -73,13 +74,20 @@ public class FlinkKafkaConsumer {
                 return JSONObject.parseObject(value,LogMessage.class);
             }
         });
-//        message.print();
+        message.print();
+        message.assignTimestampsAndWatermarks(new AscendingTimestampExtractor<LogMessage>() {
+            @Override
+            public long extractAscendingTimestamp(LogMessage userBehavior) {
+                // 原始数据单位秒，将其转成毫秒
+                return userBehavior.getMs() * 1000;
+            }
+        });
         DataStream<ViewCount> windowedData = message.keyBy("uid").timeWindow(Time.seconds(10), Time.seconds(10)).aggregate(new SumAggregate(),new WindowResultFunction());
         windowedData.print();
-        DataStream<String> topItems = windowedData
-                .keyBy("windowEnd")
-                .process(new TopNItems(1));
-        topItems.print();
+//        DataStream<String> topItems = windowedData
+//                .keyBy("windowEnd")
+//                .process(new TopNItems(1));
+//        topItems.print();
         env.execute("Flink Streaming Java API Skeleton");
     }
 
